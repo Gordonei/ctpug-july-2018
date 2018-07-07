@@ -66,3 +66,14 @@ kernel void sum16_local(global float16 *a,
   copyoff[0] = async_work_group_copy(c + wid, c_local, WG_SIZE, 0);
   wait_group_events(1, copyoff);
 }
+
+kernel void sum16_pow(global float16 *a, 
+                  global float16 *b,
+                  global float16 *c){
+  int gid = get_global_id(0);
+    
+  c[gid] = a[gid] + b[gid];
+  
+  for(int pow=0;pow < POW; ++pow)
+      c[gid] *= c[gid];
+}
